@@ -6,8 +6,8 @@
 - Local:         http://localhost:3000
 - Network:       http://192.168.56.1:3000
 - Environments: .env.local
-✓ Ready in 1017ms
-✓ Running next.config.ts took 90ms
+✓ Ready in 755ms
+✓ Running next.config.ts took 47ms
 ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead.
 
   To migrate automatically, run:
@@ -15,23 +15,8 @@
 
   Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
 
- GET /login 200 in 397ms (next.js: 77ms, proxy.ts: 154ms, application-code: 166ms)
- GET /clientes 404 in 1943ms (next.js: 910ms, proxy.ts: 527ms, application-code: 505ms)
- GET /clientes 404 in 915ms (next.js: 66ms, proxy.ts: 710ms, application-code: 139ms)
- GET /inventario 404 in 398ms (next.js: 119ms, proxy.ts: 184ms, application-code: 94ms)
- GET /inventario 404 in 344ms (next.js: 57ms, proxy.ts: 147ms, application-code: 141ms)
- GET /ventas 404 in 418ms (next.js: 121ms, proxy.ts: 216ms, application-code: 81ms)
- GET /ventas 404 in 486ms (next.js: 45ms, proxy.ts: 293ms, application-code: 147ms)
- GET /estadisticas 404 in 436ms (next.js: 136ms, proxy.ts: 176ms, application-code: 125ms)
- GET /estadisticas 404 in 479ms (next.js: 48ms, proxy.ts: 254ms, application-code: 176ms)
- GET /inventario 404 in 302ms (next.js: 49ms, proxy.ts: 167ms, application-code: 86ms)
- GET /inventario 404 in 484ms (next.js: 58ms, proxy.ts: 165ms, application-code: 261ms)
- GET / 307 in 1502ms (next.js: 1065ms, proxy.ts: 220ms, application-code: 218ms)
- GET /ventas 404 in 327ms (next.js: 44ms, proxy.ts: 164ms, application-code: 118ms)
- GET / 307 in 503ms (next.js: 30ms, proxy.ts: 307ms, application-code: 166ms)
- GET /ventas 404 in 429ms (next.js: 74ms, proxy.ts: 219ms, application-code: 136ms)
- GET /ventas 404 in 411ms (next.js: 46ms, proxy.ts: 232ms, application-code: 133ms)
- GET /ventas 404 in 319ms (next.js: 45ms, proxy.ts: 156ms, application-code: 118ms)
- GET / 307 in 408ms (next.js: 20ms, proxy.ts: 210ms, application-code: 179ms)
- GET /ventas 404 in 318ms (next.js: 42ms, proxy.ts: 159ms, application-code: 117ms)
-[?25h
+ GET /catalogo 200 in 627ms (next.js: 270ms, proxy.ts: 132ms, application-code: 225ms)
+ GET /catalogo 200 in 58ms (next.js: 8ms, proxy.ts: 7ms, application-code: 43ms)
+[browser] Image with src "https://picsum.photos/seed/1/600" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET /catalogo 200 in 48ms (next.js: 6ms, proxy.ts: 5ms, application-code: 37ms)

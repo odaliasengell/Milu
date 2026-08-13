@@ -88,7 +88,30 @@ export default function CatalogoPage() {
     return Array.from(mapa.entries());
   }, [productos, busqueda]);
 
-  const imagenHero = productos.find((p) => p.imagen_url)?.imagen_url ?? null;
+  const imagenesHero = useMemo(() => {
+    const vistas = new Set<string>();
+    const lista: string[] = [];
+    for (const p of productos) {
+      if (p.imagen_url && !vistas.has(p.imagen_url)) {
+        vistas.add(p.imagen_url);
+        lista.push(p.imagen_url);
+      }
+      if (lista.length >= 6) break;
+    }
+    return lista;
+  }, [productos]);
+
+  const [indiceHero, setIndiceHero] = useState(0);
+  const indiceHeroSeguro = imagenesHero.length ? indiceHero % imagenesHero.length : 0;
+
+  useEffect(() => {
+    if (imagenesHero.length < 2) return;
+    const id = setInterval(() => {
+      setIndiceHero((i) => (i + 1) % imagenesHero.length);
+    }, 4000);
+    return () => clearInterval(id);
+  }, [imagenesHero]);
+
   const primerWhatsapp = WHATSAPP_NUMEROS[0];
 
   return (
@@ -175,10 +198,33 @@ export default function CatalogoPage() {
           </div>
 
           <div className="relative mx-auto aspect-square w-full max-w-sm overflow-hidden rounded-3xl border border-border bg-bg-surface shadow-sm">
-            {imagenHero ? (
-              <Image src={imagenHero} alt="" fill unoptimized className="object-cover" />
-            ) : (
+            {imagenesHero.length === 0 ? (
               <Image src="/logo.png" alt="Milu Beauty" fill className="object-cover" />
+            ) : (
+              imagenesHero.map((src, i) => (
+                <Image
+                  key={src}
+                  src={src}
+                  alt=""
+                  fill
+                  unoptimized
+                  className={`object-cover transition-opacity duration-1000 ${i === indiceHeroSeguro ? "opacity-100" : "opacity-0"}`}
+                />
+              ))
+            )}
+            {imagenesHero.length > 1 && (
+              <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5">
+                {imagenesHero.map((src, i) => (
+                  <button
+                    key={src}
+                    onClick={() => setIndiceHero(i)}
+                    aria-label={`Ver imagen ${i + 1}`}
+                    className={`h-1.5 rounded-full transition-all ${
+                      i === indiceHeroSeguro ? "w-5 bg-white" : "w-1.5 bg-white/50"
+                    }`}
+                  />
+                ))}
+              </div>
             )}
           </div>
         </div>
