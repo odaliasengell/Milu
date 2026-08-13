@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --color-bg-app: #fbf3ef;
+  --color-bg-surface: #ffffff;
+  --color-bg-surface-2: #f4e4dc;
+  --color-bg-sidebar: #ffffff;
+  --color-border: #ecdcd2;
+  --color-border-strong: #dcc4b5;
+
+  --color-text-primary: #2b1512;
+  --color-text-secondary: #6b4a3f;
+  --color-text-muted: #a0877c;
+
+  --color-accent: #a8623e;
+  --color-accent-hover: #8f4f30;
+  --color-accent-soft: #f3dfd2;
+  --color-accent-foreground: #ffffff;
+
+  --color-positive: #16a34a;
+  --color-negative: #dc2626;
+
+  --chart-grid: #ecdcd2;
+  --chart-axis: #a0877c;
+  --chart-tooltip-bg: #ffffff;
+  --chart-tooltip-border: #ecdcd2;
+}
+
+.dark {
+  --color-bg-app: #2e0a0f;
+  --color-bg-surface: #3d131a;
+  --color-bg-surface-2: #481a22;
+  --color-bg-sidebar: #250709;
+  --color-border: #4a2129;
+  --color-border-strong: #5c2b34;
+
+  --color-text-primary: #f5e4dc;
+  --color-text-secondary: #d2a99c;
+  --color-text-muted: #9c7369;
+
+  --color-accent: #c9906a;
+  --color-accent-hover: #d9a784;
+  --color-accent-soft: #482318;
+  --color-accent-foreground: #2a0a0d;
+
+  --color-positive: #34d399;
+  --color-negative: #f87171;
+
+  --chart-grid: #4a2129;
+  --chart-axis: #9c7369;
+  --chart-tooltip-bg: #3d131a;
+  --chart-tooltip-border: #5c2b34;
+}
+
+@theme inline {
+  --color-bg-app: var(--color-bg-app);
+  --color-bg-surface: var(--color-bg-surface);
+  --color-bg-surface-2: var(--color-bg-surface-2);
+  --color-bg-sidebar: var(--color-bg-sidebar);
+  --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-accent-soft: var(--color-accent-soft);
+  --color-accent-foreground: var(--color-accent-foreground);
+
+  --color-positive: var(--color-positive);
+  --color-negative: var(--color-negative);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--color-bg-app);
+  color: var(--color-text-primary);
+}
