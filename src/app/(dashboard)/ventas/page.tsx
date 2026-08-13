@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Plus, Eye, Pencil, Trash2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import type { VentaConDetalle } from "@/types/database";
 import Modal from "@/components/Modal";
@@ -67,9 +68,10 @@ export default function VentasPage() {
         </div>
         <button
           onClick={() => setModalVenta("nueva")}
-          className="whitespace-nowrap rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground hover:bg-accent-hover"
+          className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground hover:bg-accent-hover"
         >
-          + Nueva venta
+          <Plus size={16} />
+          Nueva venta
         </button>
       </div>
 
@@ -107,16 +109,33 @@ export default function VentasPage() {
                   {v.venta_items.length} artículo{v.venta_items.length !== 1 ? "s" : ""}
                 </td>
                 <td className="px-4 py-3 font-medium text-text-primary">{money(Number(v.total))}</td>
-                <td className="px-4 py-3 text-right whitespace-nowrap">
-                  <button onClick={() => setDetalle(v)} className="mr-3 text-accent hover:underline">
-                    Ver detalle
-                  </button>
-                  <button onClick={() => setModalVenta(v)} className="mr-3 text-text-secondary hover:underline">
-                    Editar
-                  </button>
-                  <button onClick={() => eliminar(v)} className="text-text-muted hover:text-negative hover:underline">
-                    Eliminar
-                  </button>
+                <td className="px-4 py-3 text-right">
+                  <div className="flex items-center justify-end gap-1">
+                    <button
+                      onClick={() => setDetalle(v)}
+                      title="Ver detalle"
+                      aria-label="Ver detalle"
+                      className="rounded-lg p-2 text-accent hover:bg-accent-soft"
+                    >
+                      <Eye size={16} />
+                    </button>
+                    <button
+                      onClick={() => setModalVenta(v)}
+                      title="Editar"
+                      aria-label="Editar"
+                      className="rounded-lg p-2 text-text-muted hover:bg-bg-surface-2 hover:text-text-primary"
+                    >
+                      <Pencil size={16} />
+                    </button>
+                    <button
+                      onClick={() => eliminar(v)}
+                      title="Eliminar"
+                      aria-label="Eliminar"
+                      className="rounded-lg p-2 text-text-muted hover:bg-negative/10 hover:text-negative"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
@@ -166,10 +185,18 @@ export default function VentasPage() {
               <span className="text-lg font-semibold text-accent">{money(Number(detalle.total))}</span>
             </div>
             <div className="flex justify-end gap-4">
-              <button onClick={() => setModalVenta(detalle)} className="text-sm text-accent hover:underline">
+              <button
+                onClick={() => setModalVenta(detalle)}
+                className="inline-flex items-center gap-1.5 text-sm text-accent hover:underline"
+              >
+                <Pencil size={14} />
                 Editar esta venta
               </button>
-              <button onClick={() => eliminar(detalle)} className="text-sm text-negative hover:underline">
+              <button
+                onClick={() => eliminar(detalle)}
+                className="inline-flex items-center gap-1.5 text-sm text-negative hover:underline"
+              >
+                <Trash2 size={14} />
                 Eliminar esta venta
               </button>
             </div>

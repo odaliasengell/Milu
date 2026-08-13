@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Search, Plus, Pencil, Trash2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import type { Cliente } from "@/types/database";
 import Modal from "@/components/Modal";
@@ -64,17 +65,21 @@ export default function ClientesPage() {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-2xl font-semibold text-text-primary">Clientes</h1>
         <div className="flex gap-2">
-          <input
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-            placeholder="Buscar cliente..."
-            className="rounded-lg border border-border bg-bg-surface-2 px-3 py-2 text-sm text-text-primary placeholder:text-text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
-          />
+          <div className="relative">
+            <Search size={15} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
+            <input
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+              placeholder="Buscar cliente..."
+              className="rounded-lg border border-border bg-bg-surface-2 py-2 pl-9 pr-3 text-sm text-text-primary placeholder:text-text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+            />
+          </div>
           <button
             onClick={abrirNuevo}
-            className="whitespace-nowrap rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground hover:bg-accent-hover"
+            className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground hover:bg-accent-hover"
           >
-            + Nuevo cliente
+            <Plus size={16} />
+            Nuevo cliente
           </button>
         </div>
       </div>
@@ -112,12 +117,24 @@ export default function ClientesPage() {
                 <td className="px-4 py-3 text-text-secondary">{c.email || "—"}</td>
                 <td className="max-w-[220px] truncate px-4 py-3 text-text-muted">{c.notas || "—"}</td>
                 <td className="px-4 py-3 text-right">
-                  <button onClick={() => abrirEditar(c)} className="mr-3 text-accent hover:underline">
-                    Editar
-                  </button>
-                  <button onClick={() => eliminar(c)} className="text-text-muted hover:text-negative hover:underline">
-                    Eliminar
-                  </button>
+                  <div className="flex items-center justify-end gap-1">
+                    <button
+                      onClick={() => abrirEditar(c)}
+                      title="Editar"
+                      aria-label="Editar"
+                      className="rounded-lg p-2 text-text-muted hover:bg-bg-surface-2 hover:text-text-primary"
+                    >
+                      <Pencil size={16} />
+                    </button>
+                    <button
+                      onClick={() => eliminar(c)}
+                      title="Eliminar"
+                      aria-label="Eliminar"
+                      className="rounded-lg p-2 text-text-muted hover:bg-negative/10 hover:text-negative"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
