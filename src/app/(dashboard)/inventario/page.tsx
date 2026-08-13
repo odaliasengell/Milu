@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { Search, Plus, ExternalLink, PackagePlus, Pencil, Trash2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import type { Producto } from "@/types/database";
 import Modal from "@/components/Modal";
@@ -75,24 +76,29 @@ export default function InventarioPage() {
           </p>
         </div>
         <div className="flex gap-2">
-          <input
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-            placeholder="Buscar producto..."
-            className="rounded-lg border border-border bg-bg-surface-2 px-3 py-2 text-sm text-text-primary placeholder:text-text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
-          />
+          <div className="relative">
+            <Search size={15} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
+            <input
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+              placeholder="Buscar producto..."
+              className="rounded-lg border border-border bg-bg-surface-2 py-2 pl-9 pr-3 text-sm text-text-primary placeholder:text-text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+            />
+          </div>
           <Link
             href="/catalogo"
             target="_blank"
-            className="whitespace-nowrap rounded-lg border border-border px-4 py-2 text-sm font-medium text-text-secondary hover:bg-bg-surface-2"
+            className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg border border-border px-4 py-2 text-sm font-medium text-text-secondary hover:bg-bg-surface-2"
           >
+            <ExternalLink size={15} />
             Ver catálogo
           </Link>
           <button
             onClick={() => setModalProducto("nuevo")}
-            className="whitespace-nowrap rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground hover:bg-accent-hover"
+            className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground hover:bg-accent-hover"
           >
-            + Nuevo producto
+            <Plus size={16} />
+            Nuevo producto
           </button>
         </div>
       </div>
@@ -169,16 +175,33 @@ export default function InventarioPage() {
                       {p.visible_catalogo ? "Visible" : "Oculto"}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-right whitespace-nowrap">
-                    <button onClick={() => setModalReponer(p)} className="mr-3 text-accent hover:underline">
-                      Reponer stock
-                    </button>
-                    <button onClick={() => setModalProducto(p)} className="mr-3 text-text-muted hover:underline">
-                      Editar
-                    </button>
-                    <button onClick={() => eliminar(p)} className="text-text-muted hover:text-negative hover:underline">
-                      Eliminar
-                    </button>
+                  <td className="px-4 py-3 text-right">
+                    <div className="flex items-center justify-end gap-1">
+                      <button
+                        onClick={() => setModalReponer(p)}
+                        title="Reponer stock"
+                        aria-label="Reponer stock"
+                        className="rounded-lg p-2 text-accent hover:bg-accent-soft"
+                      >
+                        <PackagePlus size={16} />
+                      </button>
+                      <button
+                        onClick={() => setModalProducto(p)}
+                        title="Editar"
+                        aria-label="Editar"
+                        className="rounded-lg p-2 text-text-muted hover:bg-bg-surface-2 hover:text-text-primary"
+                      >
+                        <Pencil size={16} />
+                      </button>
+                      <button
+                        onClick={() => eliminar(p)}
+                        title="Eliminar"
+                        aria-label="Eliminar"
+                        className="rounded-lg p-2 text-text-muted hover:bg-negative/10 hover:text-negative"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               );
