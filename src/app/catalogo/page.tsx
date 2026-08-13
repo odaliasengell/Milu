@@ -20,8 +20,11 @@ import { createClient } from "@/lib/supabase/client";
 import type { ProductoPublico } from "@/types/database";
 import ThemeToggle from "@/components/ThemeToggle";
 
-// Edita aquí tus números de WhatsApp (con código de país, sin espacios ni signos).
-const WHATSAPP_NUMEROS = ["593978653938", "593963119623"];
+// Edita aquí tus contactos de WhatsApp (número con código de país, sin espacios ni signos).
+const CONTACTOS_WHATSAPP = [
+  { numero: "593978653938", etiqueta: "Vendedor 1" },
+  { numero: "593963119623", etiqueta: "Vendedor 2" },
+];
 
 const ICONOS_CATEGORIA = [Sparkles, Palette, Droplet, Gem, Heart, Star, Paintbrush, ShoppingBag];
 
@@ -112,7 +115,7 @@ export default function CatalogoPage() {
     return () => clearInterval(id);
   }, [imagenesHero]);
 
-  const primerWhatsapp = WHATSAPP_NUMEROS[0];
+  const primerWhatsapp = CONTACTOS_WHATSAPP[0]?.numero;
 
   return (
     <div className="min-h-screen bg-bg-app" id="inicio">
@@ -312,21 +315,22 @@ export default function CatalogoPage() {
       </main>
 
       {/* Contacto */}
-      {WHATSAPP_NUMEROS.length > 0 && (
+      {CONTACTOS_WHATSAPP.length > 0 && (
         <section className="border-t border-border bg-bg-surface">
           <div className="mx-auto max-w-6xl px-4 py-10 text-center sm:px-8">
             <h2 className="text-xl font-semibold text-text-primary">¿Te gustó algo?</h2>
             <p className="mt-1 text-text-secondary">Escríbenos por WhatsApp para hacer tu pedido.</p>
             <div className="mt-5 flex flex-wrap justify-center gap-3">
-              {WHATSAPP_NUMEROS.map((numero) => (
+              {CONTACTOS_WHATSAPP.map((contacto) => (
                 <a
-                  key={numero}
-                  href={`https://wa.me/${numero}?text=${mensajeWhatsapp()}`}
+                  key={contacto.numero}
+                  href={`https://wa.me/${contacto.numero}?text=${mensajeWhatsapp()}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground hover:bg-accent-hover"
                 >
-                  <MessageCircle size={16} />+{numero}
+                  <MessageCircle size={16} />
+                  {contacto.etiqueta}
                 </a>
               ))}
             </div>
@@ -363,19 +367,20 @@ export default function CatalogoPage() {
               </div>
             )}
 
-            {WHATSAPP_NUMEROS.length > 0 && (
+            {CONTACTOS_WHATSAPP.length > 0 && (
               <div>
                 <h3 className="text-sm font-semibold uppercase tracking-wide text-text-primary">Contacto</h3>
                 <ul className="mt-3 space-y-2">
-                  {WHATSAPP_NUMEROS.map((numero) => (
-                    <li key={numero}>
+                  {CONTACTOS_WHATSAPP.map((contacto) => (
+                    <li key={contacto.numero}>
                       <a
-                        href={`https://wa.me/${numero}?text=${mensajeWhatsapp()}`}
+                        href={`https://wa.me/${contacto.numero}?text=${mensajeWhatsapp()}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-accent"
                       >
-                        <MessageCircle size={14} />+{numero}
+                        <MessageCircle size={14} />
+                        {contacto.etiqueta}
                       </a>
                     </li>
                   ))}
