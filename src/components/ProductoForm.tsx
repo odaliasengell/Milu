@@ -5,7 +5,7 @@ import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import type { Producto } from "@/types/database";
 
-const CATEGORIAS = ["Base", "Labial", "Sombra", "Rubor", "Delineador", "Máscara de pestañas", "Corrector", "Polvo", "Brocha", "Otro"];
+const CATEGORIAS = ["Cejas", "Labios", "Rostro", "Pestañas", "Herramientas", "Otro"];
 
 export default function ProductoForm({
   producto,
