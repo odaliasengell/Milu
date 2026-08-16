@@ -19,6 +19,7 @@ export default function ProductoForm({
   const supabase = createClient();
   const [nombre, setNombre] = useState(producto?.nombre ?? "");
   const [categoria, setCategoria] = useState(producto?.categoria ?? CATEGORIAS[0]);
+  const [descripcion, setDescripcion] = useState(producto?.descripcion ?? "");
   const [costo, setCosto] = useState(producto?.costo?.toString() ?? "");
   const [precio, setPrecio] = useState(producto?.precio?.toString() ?? "");
   const [cantidadInicial, setCantidadInicial] = useState("0");
@@ -86,6 +87,7 @@ export default function ProductoForm({
         .update({
           nombre: nombre.trim(),
           categoria,
+          descripcion: descripcion.trim() || null,
           costo: costoNum,
           precio: precioNum,
           visible_catalogo: visibleCatalogo,
@@ -106,6 +108,7 @@ export default function ProductoForm({
         .insert({
           nombre: nombre.trim(),
           categoria,
+          descripcion: descripcion.trim() || null,
           costo: costoNum,
           precio: precioNum,
           cantidad_ingresada: inicialNum,
@@ -177,6 +180,18 @@ export default function ProductoForm({
             </option>
           ))}
         </select>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-text-secondary">Descripción</label>
+        <textarea
+          value={descripcion}
+          onChange={(e) => setDescripcion(e.target.value)}
+          rows={3}
+          className="mt-1 w-full rounded-lg border border-border bg-bg-surface-2 px-3 py-2 text-sm text-text-primary placeholder:text-text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+          placeholder="Describe el producto: acabado, tono, beneficios..."
+        />
+        <p className="mt-1 text-xs text-text-muted">Se mostrará en el catálogo público, debajo del producto.</p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">

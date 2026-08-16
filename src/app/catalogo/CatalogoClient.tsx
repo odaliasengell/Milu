@@ -56,7 +56,7 @@ export default function CatalogoClient() {
     async function cargar() {
       const { data } = await supabase
         .from("productos")
-        .select("id, nombre, categoria, precio, imagen_url, cantidad_actual")
+        .select("id, nombre, categoria, descripcion, precio, imagen_url, cantidad_actual")
         .eq("visible_catalogo", true)
         .order("categoria")
         .order("nombre");
@@ -437,6 +437,10 @@ export default function CatalogoClient() {
               )}
               <h3 className="mt-1 text-xl font-semibold text-text-primary">{productoVisto.nombre}</h3>
               <p className="mt-2 text-2xl font-bold text-accent">{money(productoVisto.precio)}</p>
+
+              {productoVisto.descripcion && (
+                <p className="mt-3 whitespace-pre-line text-sm text-text-secondary">{productoVisto.descripcion}</p>
+              )}
 
               {productoVisto.cantidad_actual <= 0 ? (
                 <span className="mt-3 inline-flex w-fit items-center rounded-full bg-negative/15 px-3 py-1 text-xs font-semibold text-negative">

@@ -32,6 +32,7 @@ create table if not exists productos (
   user_id uuid not null default auth.uid() references auth.users(id) on delete cascade,
   nombre text not null,
   categoria text,
+  descripcion text,
   costo numeric(10,2) not null default 0,
   precio numeric(10,2) not null default 0,
   cantidad_ingresada integer not null default 0,
@@ -44,6 +45,7 @@ create table if not exists productos (
 -- Por si la tabla ya existía de una instalación previa del esquema
 alter table productos add column if not exists visible_catalogo boolean not null default false;
 alter table productos add column if not exists imagen_url text;
+alter table productos add column if not exists descripcion text;
 
 alter table productos enable row level security;
 
@@ -64,7 +66,7 @@ create policy "productos_select_publico" on productos for select
   using (visible_catalogo = true);
 
 revoke select on productos from anon;
-grant select (id, nombre, categoria, precio, imagen_url, cantidad_actual) on productos to anon;
+grant select (id, nombre, categoria, descripcion, precio, imagen_url, cantidad_actual) on productos to anon;
 
 -- ========== VENTAS ==========
 create table if not exists ventas (

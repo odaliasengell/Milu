@@ -20,3 +20,4 @@
 [browser] Image with src "https://picsum.photos/seed/1/600" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
 Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
  GET /catalogo 200 in 48ms (next.js: 6ms, proxy.ts: 5ms, application-code: 37ms)
+  

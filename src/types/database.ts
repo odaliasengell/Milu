@@ -13,6 +13,7 @@ export type Producto = {
   user_id: string;
   nombre: string;
   categoria: string | null;
+  descripcion: string | null;
   costo: number;
   precio: number;
   cantidad_ingresada: number;
@@ -24,7 +25,7 @@ export type Producto = {
 
 export type ProductoPublico = Pick<
   Producto,
-  "id" | "nombre" | "categoria" | "precio" | "imagen_url" | "cantidad_actual"
+  "id" | "nombre" | "categoria" | "descripcion" | "precio" | "imagen_url" | "cantidad_actual"
 >;
 
 export type Venta = {
