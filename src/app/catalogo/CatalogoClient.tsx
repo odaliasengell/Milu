@@ -15,10 +15,12 @@ import {
   MessageCircle,
   Search,
   X,
+  ZoomIn,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import type { ProductoPublico } from "@/types/database";
 import ThemeToggle from "@/components/ThemeToggle";
+import Modal from "@/components/Modal";
 
 // Edita aquí tus contactos de WhatsApp (número con código de país, sin espacios ni signos).
 const CONTACTOS_WHATSAPP = [
@@ -116,6 +118,12 @@ export default function CatalogoClient() {
   }, [imagenesHero]);
 
   const primerWhatsapp = CONTACTOS_WHATSAPP[0]?.numero;
+
+  const [productoVisto, setProductoVisto] = useState<ProductoPublico | null>(null);
+
+  function mensajeWhatsappProducto(nombre: string) {
+    return encodeURIComponent(`Hola 👋, me interesa "${nombre}" que vi en su catálogo.`);
+  }
 
   return (
     <div className="min-h-screen bg-bg-app" id="inicio">
@@ -276,9 +284,11 @@ export default function CatalogoClient() {
                   {items.map((p) => {
                     const agotado = p.cantidad_actual <= 0;
                     return (
-                      <div
+                      <button
                         key={p.id}
-                        className="overflow-hidden rounded-2xl border border-border bg-bg-surface transition hover:border-accent/40 hover:shadow-sm"
+                        type="button"
+                        onClick={() => setProductoVisto(p)}
+                        className="group overflow-hidden rounded-2xl border border-border bg-bg-surface text-left transition hover:border-accent/40 hover:shadow-sm"
                       >
                         <div className="relative aspect-square w-full bg-bg-surface-2">
                           {p.imagen_url ? (
@@ -287,7 +297,7 @@ export default function CatalogoClient() {
                               alt={p.nombre}
                               fill
                               unoptimized
-                              className={`object-cover ${agotado ? "opacity-40 grayscale" : ""}`}
+                              className={`object-cover transition group-hover:scale-105 ${agotado ? "opacity-40 grayscale" : ""}`}
                             />
                           ) : (
                             <div className="flex h-full w-full items-center justify-center text-text-muted">
@@ -299,12 +309,17 @@ export default function CatalogoClient() {
                               Agotado
                             </span>
                           )}
+                          <span className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition group-hover:bg-black/20 group-hover:opacity-100">
+                            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-neutral-900">
+                              <ZoomIn size={18} />
+                            </span>
+                          </span>
                         </div>
                         <div className="p-3">
                           <p className="truncate text-sm font-medium text-text-primary">{p.nombre}</p>
                           <p className="mt-0.5 text-sm font-semibold text-accent">{money(p.precio)}</p>
                         </div>
-                      </div>
+                      </button>
                     );
                   })}
                 </div>
@@ -394,6 +409,68 @@ export default function CatalogoClient() {
           </div>
         </div>
       </footer>
+
+      {productoVisto && (
+        <Modal title={productoVisto.nombre} onClose={() => setProductoVisto(null)} wide>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-bg-surface-2">
+              {productoVisto.imagen_url ? (
+                <Image
+                  src={productoVisto.imagen_url}
+                  alt={productoVisto.nombre}
+                  fill
+                  unoptimized
+                  className={`object-cover ${productoVisto.cantidad_actual <= 0 ? "opacity-40 grayscale" : ""}`}
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center text-text-muted">
+                  <ImageOff size={36} />
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-col">
+              {productoVisto.categoria && (
+                <span className="text-xs font-semibold uppercase tracking-wide text-text-muted">
+                  {productoVisto.categoria}
+                </span>
+              )}
+              <h3 className="mt-1 text-xl font-semibold text-text-primary">{productoVisto.nombre}</h3>
+              <p className="mt-2 text-2xl font-bold text-accent">{money(productoVisto.precio)}</p>
+
+              {productoVisto.cantidad_actual <= 0 ? (
+                <span className="mt-3 inline-flex w-fit items-center rounded-full bg-negative/15 px-3 py-1 text-xs font-semibold text-negative">
+                  Agotado
+                </span>
+              ) : (
+                <span className="mt-3 inline-flex w-fit items-center rounded-full bg-positive/15 px-3 py-1 text-xs font-semibold text-positive">
+                  Disponible
+                </span>
+              )}
+
+              <div className="mt-6 flex-1" />
+
+              {CONTACTOS_WHATSAPP.length > 0 && (
+                <div className="space-y-2">
+                  <p className="text-sm text-text-secondary">¿Te interesa? Escríbenos:</p>
+                  {CONTACTOS_WHATSAPP.map((contacto) => (
+                    <a
+                      key={contacto.numero}
+                      href={`https://wa.me/${contacto.numero}?text=${mensajeWhatsappProducto(productoVisto.nombre)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-accent-foreground hover:bg-accent-hover"
+                    >
+                      <MessageCircle size={16} />
+                      {contacto.etiqueta}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }
