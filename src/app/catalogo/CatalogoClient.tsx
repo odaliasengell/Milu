@@ -52,14 +52,20 @@ export default function CatalogoClient() {
   const [cargando, setCargando] = useState(true);
   const [busqueda, setBusqueda] = useState("");
 
+  const [errorCarga, setErrorCarga] = useState<string | null>(null);
+
   useEffect(() => {
     async function cargar() {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from("productos")
         .select("id, nombre, categoria, descripcion, precio, imagen_url, cantidad_actual")
         .eq("visible_catalogo", true)
         .order("categoria")
         .order("nombre");
+      if (error) {
+        console.error("Error cargando catálogo:", error);
+        setErrorCarga(error.message);
+      }
       setProductos((data as ProductoPublico[]) ?? []);
       setCargando(false);
     }
@@ -271,6 +277,10 @@ export default function CatalogoClient() {
       <main id="productos" className="mx-auto max-w-6xl px-4 py-8 sm:px-8">
         {cargando ? (
           <p className="py-16 text-center text-sm text-text-muted">Cargando productos...</p>
+        ) : errorCarga ? (
+          <p className="py-16 text-center text-sm text-negative">
+            No se pudieron cargar los productos: {errorCarga}
+          </p>
         ) : secciones.length === 0 ? (
           <p className="py-16 text-center text-sm text-text-muted">
             {busqueda ? `No encontramos productos para "${busqueda}".` : "Todavía no hay productos publicados."}
